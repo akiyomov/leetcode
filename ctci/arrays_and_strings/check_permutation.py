@@ -26,5 +26,28 @@ def check_permutation2(s1,s2):
             return False
     return len(count) == 0
 
-print(check_permutation2("abc","cba"))
+class Solution:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        cntr, w, matched = Counter(s1), len(s1), 0   
+
+        for i in range(len(s2)):
+            if s2[i] in cntr: 
+                cntr[s2[i]] -= 1
+                if cntr[s2[i]] == 0:
+                    matched += 1
+            # explanation: if w = 3, i = 3, then we need to check if s2[0] is in cntr
+            # if w = 3, i = 4, then we need to check if s2[1] is in cntr
+            if i >= w and s2[i-w] in cntr: 
+                if cntr[s2[i-w]] == 0:
+                    matched -= 1
+                cntr[s2[i-w]] += 1
+
+            if matched == len(cntr):
+                return True
+
+        return False
+
+if __name__ == "__main__":
+    print(check_permutation("abc","cba"))
+    print(check_permutation("abc","cbad"))
  
